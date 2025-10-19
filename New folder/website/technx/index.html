@@ -1,0 +1,450 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TECHNX — Learn to Code. Build the Future.</title>
+  <meta name="description" content="TECHNX: A modern learning hub for coding learners. Free resources, beginner-friendly tracks, projects, and community." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0d12;        /* deep dark */
+      --bg-elev:#11141b;   /* cards */
+      --txt:#e6e7ea;       /* main text */
+      --muted:#a6adbb;     /* secondary */
+      --brand:#6ee7ff;     /* cyan */
+      --brand-2:#8b5cf6;   /* violet */
+      --ring:#22d3ee;      /* focus */
+      --good:#34d399;      /* green */
+      --warn:#fbbf24;      /* amber */
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; color:var(--txt);
+      background:
+        radial-gradient(1000px 600px at 10% -10%, rgba(110,231,255,.07), transparent),
+        radial-gradient(900px 500px at 110% 10%, rgba(139,92,246,.07), transparent),
+        var(--bg);
+      font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      line-height:1.6;
+    }
+    a{color:inherit; text-decoration:none}
+    .container{max-width:1200px; margin:0 auto; padding:0 20px}
+    /* Header */
+    header{position:sticky; top:0; z-index:50; backdrop-filter:saturate(180%) blur(12px); background:linear-gradient(to bottom, rgba(11,13,18,.9), rgba(11,13,18,.6)); border-bottom:1px solid rgba(255,255,255,.06)}
+    .nav{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
+    .brand{display:flex; gap:12px; align-items:center; font-weight:800; letter-spacing:.5px}
+    .logo{width:36px; height:36px; display:grid; place-items:center; border-radius:12px; background:linear-gradient(135deg, var(--brand), var(--brand-2)); box-shadow:var(--shadow)}
+    .menu{display:flex; gap:22px; align-items:center}
+    .btn{padding:10px 16px; background:linear-gradient(135deg, var(--brand), var(--brand-2)); color:#0b0d12; border:none; border-radius:12px; font-weight:700; box-shadow:var(--shadow); cursor:pointer}
+    .btn-ghost{padding:10px 16px; border:1px solid rgba(255,255,255,.14); border-radius:12px; background:transparent; color:var(--txt); font-weight:600}
+    .btn:focus,.btn-ghost:focus{outline:2px solid var(--ring); outline-offset:2px}
+
+    /* Hero */
+    .hero{padding:96px 0 70px}
+    .hero-grid{display:grid; grid-template-columns:1.15fr 1fr; gap:40px; align-items:center}
+    .badge{display:inline-flex; gap:8px; align-items:center; font-size:12px; color:var(--muted); border:1px solid rgba(255,255,255,.08); padding:6px 10px; border-radius:999px; backdrop-filter: blur(6px)}
+    .title{font-family:"Space Grotesk", Inter, system-ui; font-size:clamp(38px, 6vw, 70px); font-weight:800; line-height:1.05; margin:14px 0 10px}
+    .gradient{background:linear-gradient(135deg, var(--txt), var(--brand)); -webkit-background-clip:text; background-clip:text; color:transparent}
+    .subtitle{font-size:clamp(16px, 2.2vw, 20px); color:var(--muted); max-width:60ch}
+    .brand-letters{display:inline-flex; gap:.08em}
+    .brand-letters span{display:inline-block; transform:translateY(20px) scale(.98); opacity:0; filter:drop-shadow(0 6px 18px rgba(110,231,255,.25))}
+    .brand-letters span.revealed{animation:popUp .6s cubic-bezier(.22,1,.36,1) forwards}
+    @keyframes popUp{to{transform:translateY(0) scale(1); opacity:1}}
+
+    /* Sections */
+    section{padding:84px 0}
+    .section-title{font-family:"Space Grotesk"; font-size:30px; margin:0 0 8px}
+    .section-desc{color:var(--muted); margin:0 0 22px}
+
+    /* Cards/Grid */
+    .grid{display:grid; gap:20px}
+    .grid.cols-3{grid-template-columns:repeat(3,1fr)}
+    .grid.cols-2{grid-template-columns:repeat(2,1fr)}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.08); border-radius:20px; padding:22px; box-shadow:var(--shadow)}
+    .card h3{margin:10px 0 6px}
+    .muted{color:var(--muted)}
+    .tag{display:inline-flex; align-items:center; gap:6px; font-size:12px; border:1px solid rgba(255,255,255,.14); padding:4px 8px; border-radius:999px; color:var(--muted)}
+
+    /* Tracks filter */
+    .filter{display:flex; gap:10px; flex-wrap:wrap; margin:16px 0 20px}
+    .filter button{padding:8px 12px; border-radius:10px; border:1px solid rgba(255,255,255,.14); background:transparent; color:var(--txt); cursor:pointer}
+    .filter button.active{background:linear-gradient(135deg, var(--brand), var(--brand-2)); color:#0b0d12; border-color:transparent}
+
+    /* FAQ */
+    details{background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:14px 16px}
+    details+details{margin-top:10px}
+    summary{cursor:pointer; font-weight:600}
+
+    /* Forms */
+    form{display:grid; gap:14px; max-width:560px}
+    input, textarea{width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.14); background:rgba(255,255,255,.02); color:var(--txt); font:inherit}
+    textarea{min-height:120px}
+    input:focus, textarea:focus{outline:2px solid var(--ring); outline-offset:2px}
+
+    /* Footer */
+    footer{border-top:1px solid rgba(255,255,255,.08); padding:26px 0 50px; color:var(--muted)}
+
+    /* Responsive */
+    @media (max-width: 1000px){ .hero-grid{grid-template-columns:1fr} }
+    @media (max-width: 880px){ .grid.cols-3{grid-template-columns:1fr 1fr} }
+    @media (max-width: 640px){ .grid.cols-3,.grid.cols-2{grid-template-columns:1fr} }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container nav">
+      <a href="#" class="brand" aria-label="TECHNX Home">
+        <span class="logo" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M4 5h16M12 5v14m0 0l7-7" stroke="#0b0d12" stroke-width="2.4" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span>TECHNX</span>
+      </a>
+      <nav class="menu" aria-label="Primary">
+        <a href="#tracks">Tracks</a>
+        <a href="#courses">Courses</a>
+        <a href="#resources">Resources</a>
+        <a href="#faq">FAQ</a>
+        <a class="btn" href="#join">Join Free</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="container hero-grid">
+      <div>
+        <span class="badge">💡 Beginner Friendly • Project Based</span>
+        <h1 class="title">
+          <span class="gradient">Learn to Code at </span>
+          <span class="brand-letters" aria-label="TECHNX" title="TECHNX"></span>
+        </h1>
+        <p class="subtitle">Start from zero or level up your skills with curated tracks, hands‑on projects, and community support. Build real apps, prepare for jobs, and ship your portfolio.</p>
+        <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:24px">
+          <a class="btn" href="#tracks">Explore Tracks</a>
+          <a class="btn-ghost" href="#resources">Free Resources</a>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="padding:0; overflow:hidden">
+          <!-- Simple code editor mockup -->
+          <svg viewBox="0 0 800 520" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Editor mockup">
+            <defs>
+              <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0" stop-color="rgba(110,231,255,0.95)"/>
+                <stop offset="1" stop-color="rgba(139,92,246,0.95)"/>
+              </linearGradient>
+            </defs>
+            <rect width="100%" height="100%" fill="#0d1117"/>
+            <rect x="28" y="28" width="744" height="464" rx="14" fill="#0f1522" stroke="rgba(255,255,255,.08)"/>
+            <circle cx="54" cy="52" r="6" fill="#ef4444"/>
+            <circle cx="74" cy="52" r="6" fill="#f59e0b"/>
+            <circle cx="94" cy="52" r="6" fill="#10b981"/>
+            <text x="54" y="92" font-family="Space Grotesk, Inter, sans-serif" font-size="18" fill="#a6adbb">app.js</text>
+            <text x="54" y="126" font-family="Space Grotesk, Inter, sans-serif" font-size="16" fill="#6ee7ff">function</text>
+            <text x="138" y="126" font-family="Space Grotesk, Inter, sans-serif" font-size="16" fill="#e6e7ea"> greet(name) {</text>
+            <text x="72" y="156" font-family="Space Grotesk, Inter, sans-serif" font-size="16" fill="#e6e7ea">return</text>
+            <text x="128" y="156" font-family="Space Grotesk, Inter, sans-serif" font-size="16" fill="#8b5cf6">`Hello, ${'{'}name{'}'}`</text>
+            <text x="336" y="156" font-family="Space Grotesk, Inter, sans-serif" font-size="16" fill="#e6e7ea">;</text>
+            <text x="54" y="186" font-family="Space Grotesk, Inter, sans-serif" font-size="16" fill="#e6e7ea">}</text>
+            <text x="54" y="236" font-family="Space Grotesk, Inter, sans-serif" font-size="16" fill="#6ee7ff">console</text>
+            <text x="126" y="236" font-family="Space Grotesk, Inter, sans-serif" font-size="16" fill="#e6e7ea">.log(greet(</text>
+            <text x="230" y="236" font-family="Space Grotesk, Inter, sans-serif" font-size="16" fill="#34d399">'TECHNX'</text>
+            <text x="328" y="236" font-family="Space Grotesk, Inter, sans-serif" font-size="16" fill="#e6e7ea">));</text>
+            <text x="54" y="320" font-family="Space Grotesk, Inter, sans-serif" font-size="84" fill="url(#g1)" opacity=".12">TECHNX</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why TECHNX -->
+  <section id="why">
+    <div class="container">
+      <h2 class="section-title">Why learn with TECHNX?</h2>
+      <p class="section-desc">Clear paths, small steps, real projects, and feedback. Everything you need to go from beginner to job‑ready.</p>
+      <div class="grid cols-3">
+        <div class="card"><h3>Structured Tracks</h3><p class="muted">Follow curated learning paths with checkpoints and milestones.</p></div>
+        <div class="card"><h3>Build Projects</h3><p class="muted">Portfolio‑ready apps: calculators, dashboards, APIs, and more.</p></div>
+        <div class="card"><h3>Community & Mentors</h3><p class="muted">Get help fast, join study groups, and stay accountable.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tracks with filter -->
+  <section id="tracks">
+    <div class="container">
+      <h2 class="section-title">Learning Tracks</h2>
+      <p class="section-desc">Pick a path and start today. Filter by focus.</p>
+      <div class="filter" role="tablist" aria-label="Track filters">
+        <button class="active" data-filter="all" role="tab" aria-selected="true">All</button>
+        <button data-filter="web" role="tab">Web Dev</button>
+        <button data-filter="python" role="tab">Python</button>
+        <button data-filter="java" role="tab">Java</button>
+        <button data-filter="c" role="tab">C/C++</button>
+      </div>
+      <div class="grid cols-3" id="trackGrid">
+        <article class="card" data-cat="web">
+          <h3>Frontend Web (HTML • CSS • JS)</h3>
+          <p class="muted">Master the web basics, responsive design, accessibility, and DOM.</p>
+          <div class="tags"><span class="tag">Beginner</span> <span class="tag">8 weeks</span></div>
+        </article>
+        <article class="card" data-cat="web">
+          <h3>React & Next.js</h3>
+          <p class="muted">Components, state, APIs, routing, and deployment.</p>
+          <div class="tags"><span class="tag">Intermediate</span> <span class="tag">6 weeks</span></div>
+        </article>
+        <article class="card" data-cat="python">
+          <h3>Python Fundamentals</h3>
+          <p class="muted">Syntax, data structures, OOP, files, and modules.</p>
+          <div class="tags"><span class="tag">Beginner</span> <span class="tag">6 weeks</span></div>
+        </article>
+        <article class="card" data-cat="python">
+          <h3>Data & Automation with Python</h3>
+          <p class="muted">Pandas, scripts, web scraping, and CLI tools.</p>
+          <div class="tags"><span class="tag">Intermediate</span> <span class="tag">5 weeks</span></div>
+        </article>
+        <article class="card" data-cat="java">
+          <h3>Java Essentials</h3>
+          <p class="muted">Core Java, Collections, OOP, and unit testing.</p>
+          <div class="tags"><span class="tag">Beginner</span> <span class="tag">7 weeks</span></div>
+        </article>
+        <article class="card" data-cat="c">
+          <h3>C/C++ Foundations</h3>
+          <p class="muted">Pointers, memory, algorithms, and STL basics.</p>
+          <div class="tags"><span class="tag">Beginner</span> <span class="tag">7 weeks</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Courses -->
+  <section id="courses">
+    <div class="container">
+      <h2 class="section-title">Featured Mini‑Courses</h2>
+      <p class="section-desc">Fast, focused, and practical. Each ends with a small project.</p>
+      <div class="grid cols-3">
+        <div class="card">
+          <h3>Build a Portfolio Website</h3>
+          <ul class="muted">
+            <li>Semantic HTML & accessible layouts</li>
+            <li>CSS Grid/Flexbox + responsive nav</li>
+            <li>Deploy on Netlify/Vercel</li>
+          </ul>
+          <div style="display:flex; gap:10px; margin-top:10px">
+            <span class="tag">Web</span><span class="tag">3 hrs</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Python Habit Tracker (CLI)</h3>
+          <ul class="muted">
+            <li>Files, JSON, argparse</li>
+            <li>Refactor into modules</li>
+            <li>Package & share</li>
+          </ul>
+          <div style="display:flex; gap:10px; margin-top:10px">
+            <span class="tag">Python</span><span class="tag">2.5 hrs</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Java Todo API (Spring)</h3>
+          <ul class="muted">
+            <li>REST endpoints & DTOs</li>
+            <li>H2 + JPA</li>
+            <li>JUnit tests</li>
+          </ul>
+          <div style="display:flex; gap:10px; margin-top:10px">
+            <span class="tag">Java</span><span class="tag">4 hrs</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Resources -->
+  <section id="resources">
+    <div class="container">
+      <h2 class="section-title">Free Resources</h2>
+      <p class="section-desc">Practice and reference materials you can use every day.</p>
+      <div class="grid cols-3">
+        <div class="card">
+          <h3>Daily Coding Challenges</h3>
+          <p class="muted">Short problems with hints and editorials.
+          </p>
+          <button class="btn-ghost" onclick="alert('Challenge for today: FizzBuzz variations!')">Try a Challenge</button>
+        </div>
+        <div class="card">
+          <h3>Cheat Sheets</h3>
+          <p class="muted">HTML tags, CSS flex/grid, Git basics, regex quick‑ref.</p>
+          <button class="btn-ghost" onclick="alert('Download coming soon!')">Download</button>
+        </div>
+        <div class="card">
+          <h3>Beginner Roadmap</h3>
+          <p class="muted">A checklist of concepts from absolute beginner to junior dev.</p>
+          <button class="btn-ghost" onclick="document.getElementById('roadmap').scrollIntoView({behavior:'smooth'})">View Roadmap</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Roadmap -->
+  <section id="roadmap">
+    <div class="container">
+      <h2 class="section-title">Zero → Junior Developer Roadmap</h2>
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>Phase 1: Foundations</h3>
+          <ul class="muted">
+            <li>Computer basics, VS Code, Git</li>
+            <li>HTML semantics, CSS basics, JS syntax</li>
+            <li>Python or Java fundamentals</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Phase 2: Projects</h3>
+          <ul class="muted">
+            <li>Build 3–5 small apps (landing page, todo, API)</li>
+            <li>Write README and deploy</li>
+            <li>Code reviews and refactoring</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Phase 3: Specialize</h3>
+          <ul class="muted">
+            <li>Pick Web / Python / Java / C++</li>
+            <li>Framework basics (React, Spring, etc.)</li>
+            <li>Data structures & algorithms practice</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Phase 4: Job‑Ready</h3>
+          <ul class="muted">
+            <li>Interview prep & mock interviews</li>
+            <li>Portfolio polish & resume</li>
+            <li>Networking and applications</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="container">
+      <h2 class="section-title">FAQ</h2>
+      <div class="grid">
+        <details>
+          <summary>Is TECHNX free to start?</summary>
+          <p class="muted">Yes! Browse tracks and resources for free. Premium cohorts may be added later.</p>
+        </details>
+        <details>
+          <summary>How much time should I study?</summary>
+          <p class="muted">Aim for 5–8 hours/week. Use Pomodoro (25/5) and ship one small project per week.</p>
+        </details>
+        <details>
+          <summary>Do I need a powerful laptop?</summary>
+          <p class="muted">No. Any modern computer that runs VS Code and a browser is enough.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Join / Contact -->
+  <section id="join">
+    <div class="container">
+      <h2 class="section-title">Join TECHNX</h2>
+      <p class="section-desc">Tell us your focus area and we’ll send you a starter kit.</p>
+      <form onsubmit="event.preventDefault(); alert('Welcome to TECHNX! Check your inbox for the starter kit.'); this.reset();">
+        <div class="grid cols-2">
+          <input type="text" name="name" placeholder="Your name" required aria-label="Your name" />
+          <input type="email" name="email" placeholder="Email" required aria-label="Email" />
+        </div>
+        <select name="track" aria-label="Preferred track" style="padding:12px 14px; border-radius:12px; background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.14); color:var(--txt); font:inherit">
+          <option value="web">Web Development</option>
+          <option value="python">Python</option>
+          <option value="java">Java</option>
+          <option value="c">C/C++</option>
+        </select>
+        <textarea name="message" placeholder="What are you struggling with right now?" aria-label="Message"></textarea>
+        <button class="btn" type="submit">Get Starter Kit</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container" style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap">
+      <div>© <span id="year"></span> TECHNX. Learn to Code. Build the Future.</div>
+      <div>Made for coding learners By Harshad ❤️</div>
+    </div>
+  </footer>
+
+  <script>
+    // Animated TECHNX letters
+    (function(){
+      const target = document.querySelector('.brand-letters');
+      const word = 'TECHNX';
+      let delay = 0;
+      [...word].forEach((ch)=>{
+        const span = document.createElement('span');
+        span.textContent = ch;
+        span.style.animationDelay = (delay += 0.08) + 's';
+        target.appendChild(span);
+        requestAnimationFrame(()=>span.classList.add('revealed'));
+      });
+    })();
+
+    // Intersection reveal
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.style.transform = 'translateY(0)';
+          e.target.style.opacity = '1';
+          io.unobserve(e.target);
+        }
+      })
+    }, { threshold:.12 });
+
+    document.querySelectorAll('.card, section .section-title, section .section-desc').forEach(el=>{
+      el.style.transform = 'translateY(14px)';
+      el.style.opacity = '.001';
+      el.style.transition = 'all .6s cubic-bezier(.22,1,.36,1)';
+      io.observe(el);
+    });
+
+    // Smooth anchor scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        const id = a.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth'}); }
+      })
+    });
+
+    // Tracks filtering
+    const buttons = document.querySelectorAll('.filter button');
+    const cards = document.querySelectorAll('#trackGrid .card');
+    buttons.forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        buttons.forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const f = btn.dataset.filter;
+        cards.forEach(c=>{
+          const show = (f==='all') || c.dataset.cat===f;
+          c.style.display = show ? '' : 'none';
+        });
+      })
+    });
+
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

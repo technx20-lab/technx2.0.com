@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Happy Birthday 🎉</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #fef6ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .card, .slideshow {
+      background: white;
+      padding: 24px;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+    }
+    h1 { margin: 0 0 12px; }
+    input {
+      padding: 10px;
+      font-size: 16px;
+      width: 80%;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 16px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(135deg,#ff6ec7,#6ecbff);
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover { opacity: 0.9; }
+    .hidden { display: none; }
+    .message { font-size: 18px; margin: 16px 0; }
+    canvas { position: absolute; inset: 0; z-index: -1; }
+    .slideshow img {
+      max-width: 100%;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Question 1 -->
+  <div class="card" id="question1">
+    <h1>Birthday Questions 🎂</h1>
+    <p>Question 1: What is your name? (Type it in CAPITAL letters)</p>
+    <input type="text" id="nameInput" placeholder="ENTER NAME" />
+    <br>
+    <button onclick="nextQuestion()">Next</button>
+  </div>
+
+  <!-- Question 2 -->
+  <div class="card hidden" id="question2">
+    <p>Question 2: What is your favourite food?</p>
+    <input type="text" id="foodInput" placeholder="ENTER FOOD" />
+    <br>
+    <button onclick="startSlideshow()">Finish</button>
+  </div>
+
+  <!-- Slideshow -->
+  <div class="slideshow hidden" id="slideshow">
+    <h2>🎉 Memories 🎉</h2>
+    <img id="slideImg" src="" alt="Slideshow Image">
+  </div>
+
+  <!-- Birthday Card -->
+  <div class="card hidden" id="birthdayCard">
+    <h1>🎉 Happy Birthday <span id="personName"></span>! 🎂</h1>
+    <p class="message">We hope your day is filled with joy, laughter, and of course plenty of <span id="favFood"></span>! 🍽️</p>
+    <button onclick="burst()">Celebrate Now ✨</button>
+  </div>
+
+  <canvas id="confetti"></canvas>
+
+  <script>
+    const photos = [
+      "https://picsum.photos/id/292/500/300", // cake
+      "https://picsum.photos/id/29/500/300",  // balloons
+      "https://picsum.photos/id/1080/500/300", // candles
+      "https://picsum.photos/id/433/500/300"  // party
+    ];
+
+    let userName = "", favFood = "";
+
+    function nextQuestion() {
+      const name = document.getElementById('nameInput').value.trim();
+      if(name === "") { alert("Please enter your name"); return; }
+      userName = name;
+      document.getElementById('question1').classList.add('hidden');
+      document.getElementById('question2').classList.remove('hidden');
+    }
+
+    function startSlideshow() {
+      const food = document.getElementById('foodInput').value.trim();
+      if(food === "") { alert("Please enter your favourite food"); return; }
+      favFood = food;
+      document.getElementById('question2').classList.add('hidden');
+      document.getElementById('slideshow').classList.remove('hidden');
+
+      let i = 0;
+      const slideImg = document.getElementById('slideImg');
+      slideImg.src = photos[i];
+
+      const interval = setInterval(() => {
+        i++;
+        if(i < photos.length) {
+          slideImg.src = photos[i];
+        } else {
+          clearInterval(interval);
+          document.getElementById('slideshow').classList.add('hidden');
+          document.getElementById('birthdayCard').classList.remove('hidden');
+          document.getElementById('personName').textContent = userName;
+          document.getElementById('favFood').textContent = favFood;
+          burst();
+        }
+      }, 2500); // 2.5 seconds per photo
+    }
+
+    // === Confetti ===
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    let W, H, confetti = [], running = false;
+    function resize() { canvas.width = W = window.innerWidth; canvas.height = H = window.innerHeight; }
+    window.addEventListener('resize', resize); resize();
+    const colors = ['#ff6ec7','#6ecbff','#ffd66e','#7cfc96','#c4b5fd'];
+
+    function makePiece() {
+      return {
+        x: Math.random()*W,
+        y: -10,
+        r: 4+Math.random()*6,
+        c: colors[(Math.random()*colors.length)|0],
+        speed: 1+Math.random()*3,
+        swing: Math.random()*0.05+0.01,
+        rot: Math.random()*Math.PI
+      };
+    }
+
+    function draw() {
+      ctx.clearRect(0,0,W,H);
+      confetti.forEach(p => {
+        p.y += p.speed; p.rot += p.swing; p.x += Math.sin(p.rot);
+        ctx.save();
+        ctx.translate(p.x,p.y);
+        ctx.rotate(p.rot);
+        ctx.fillStyle = p.c;
+        ctx.fillRect(-p.r,-p.r/2,p.r*2,p.r);
+        ctx.restore();
+      });
+      confetti = confetti.filter(p => p.y < H+20);
+      if(running) requestAnimationFrame(draw);
+    }
+
+    function burst(durationMs=3000) {
+      running = true; draw();
+      const interval = setInterval(()=>{for(let i=0;i<10;i++) confetti.push(makePiece());},16);
+      setTimeout(()=>{clearInterval(interval); running=false;},durationMs);
+    }
+  </script>
+</body>
+</html>
